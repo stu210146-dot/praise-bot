@@ -3,7 +3,7 @@ from flask import Flask, request, abort
 from linebot import LineBotApi, WebhookHandler
 from linebot.exceptions import InvalidSignatureError
 from linebot.models import MessageEvent, TextMessage, TextSendMessage
-from google import genai  # 使用新版官方套件
+from google import genai
 
 app = Flask(__name__)
 
@@ -16,7 +16,7 @@ GEMINI_API_KEY = os.environ.get('GEMINI_API_KEY')
 line_bot_api = LineBotApi(LINE_CHANNEL_ACCESS_TOKEN)
 handler = WebhookHandler(LINE_CHANNEL_SECRET)
 
-# 新版 Gemini Client 設定
+# 設定 Google Gemini 新版客戶端
 client = genai.Client(api_key=GEMINI_API_KEY)
 
 # ================= 3. 伺服器入口 =================
@@ -36,13 +36,10 @@ def handle_message(event):
     user_msg = event.message.text
     
     try:
-        # 新版發送請求方式
+        # 使用新版語法呼叫 AI
         response = client.models.generate_content(
             model='gemini-1.5-flash',
             contents=user_msg,
-            config={
-                'temperature': 0.9,
-            }
         )
         reply_text = response.text
         
@@ -52,9 +49,10 @@ def handle_message(event):
         )
     except Exception as e:
         print(f"Error: {e}")
+        # 如果出錯，回傳錯誤訊息方便除錯
         line_bot_api.reply_message(
             event.reply_token,
-            TextSendMessage(text="我的大腦還在升級中... (請稍後再試)")
+            TextSendMessage(text="大腦還在暖身中，請再試一次！")
         )
 
 if __name__ == "__main__":
