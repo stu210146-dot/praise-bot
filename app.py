@@ -38,7 +38,7 @@ def handle_message(event):
     try:
         # 使用新版語法呼叫 AI
         response = client.models.generate_content(
-            model='gemini-1.5-flash',
+           model='gemini-1.5-flash-002',
             contents=user_msg,
         )
         reply_text = response.text
@@ -57,3 +57,4 @@ def handle_message(event):
 
 if __name__ == "__main__":
     app.run()
+
