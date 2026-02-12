@@ -35,7 +35,7 @@ safety_settings = [
 ]
 
 model = genai.GenerativeModel(
-    model_name="gemini-1.5-flash", # 使用最快最便宜的模型
+    model_name="gemini-pro", # 使用最快最便宜的模型
     generation_config=generation_config,
     safety_settings=safety_settings,
     system_instruction="""
@@ -45,8 +45,7 @@ model = genai.GenerativeModel(
     指導原則：
     1. 如果使用者說好事，你要把它誇大十倍來讚美。
     2. 如果使用者說壞事（例如很累、搞砸了），你要稱讚他的努力、堅持或這份經歷的價值。
-    3. 語氣要像最好的朋友，多用 emoji (✨, 🔥, ❤️, 💯)。
-    4. 絕對不要說教，只要提供滿滿的情緒價值。
+    3. 絕對不要說教，只要提供滿滿的情緒價值。
     """
 )
 
@@ -85,4 +84,5 @@ def handle_message(event):
         )
 
 if __name__ == "__main__":
+
     app.run()
